@@ -6,7 +6,9 @@ from requests.exceptions import Timeout
 import xml.etree.ElementTree as ET
 from datetime import datetime, date
 import re
-# https://github.com/1021ky/radiko_recorder
+
+
+# from https://github.com/1021ky/radiko_recorder
 class Authorization(object):
     """Radiko APIの認可クラス"""
     _AUTH1_URL = 'https://radiko.jp/v2/api/auth1'
@@ -78,6 +80,9 @@ class Authorization(object):
 
 
 class radikotoday:
+    """
+    今日のラジオを検索
+    """
     RADIKO_URL = "http://radiko.jp/v3/program/today/JP13.xml"
     def __init__(self):
         res = requests.get(self.RADIKO_URL)
@@ -113,6 +118,10 @@ class radikotoday:
     
 
     def show(self):
+        """
+        主にデバッグ用
+        すべてのプログラムを表示する
+        """
         for station in self.program_radiko.findall("stations/station"):
             for prog in station.findall("./progs/prog"):
                 ck = False
