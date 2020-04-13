@@ -4,6 +4,7 @@ import logging
 from record import record
 from post_slack import post_slack
 
+
 def _get_args():
     parser = argparse.ArgumentParser(description='record radiko')
     parser.add_argument('station',
@@ -24,7 +25,7 @@ def _get_args():
 
 if __name__ == "__main__":
     # ログ設定をする
-    logging.basicConfig(filename=f'record_radiko.log', level=logging.DEBUG)
+    logging.basicConfig(filename=f'.log/record_radiko.log', level=logging.DEBUG)
     # 実行時パラメータを取得する
     station, program, rtime, uploads = _get_args()
 
@@ -40,4 +41,6 @@ if __name__ == "__main__":
     logging.debug(f'outfilename:{outfilename}')
     # 録音
     record(station, program, rtime, outfilename)
+    # 終了の通知
     post_slack("自動ポスト","Done")
+
