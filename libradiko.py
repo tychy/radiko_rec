@@ -5,7 +5,7 @@ import requests
 from requests.exceptions import Timeout
 import xml.etree.ElementTree as ET
 from datetime import datetime, date
-
+import re
 # https://github.com/1021ky/radiko_recorder
 class Authorization(object):
     """Radiko APIの認可クラス"""
@@ -120,6 +120,8 @@ class radikotoday:
                 info = prog.find("info").text
                 desc = prog.find("desc").text
                 pfm = prog.find("pfm").text
+                if pfm == None:
+                    continue
                 print({
                         "station": station.get("id"),
                         "title": title.replace(" ", "_"),
@@ -145,6 +147,8 @@ class radikotoday:
                 info = prog.find("info").text
                 desc = prog.find("desc").text
                 pfm = prog.find("pfm").text
+                if pfm == None:
+                    continue
                 if (self.keyword.search(title)):    ck = True
                 if (ck is False) and (info is not None):
                     if (self.keyword.search(info)): ck = True
