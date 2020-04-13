@@ -5,4 +5,4 @@ poetry.lock
 tmp
 run.sh
 
-post_slack.py
+token.py
