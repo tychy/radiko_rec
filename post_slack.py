@@ -4,6 +4,7 @@ from token_file import post_url
 
 
 def post_slack(name, text):
+    "post_url にはincoming web hook"
     requests.post(
         post_url,
         data=json.dumps(
