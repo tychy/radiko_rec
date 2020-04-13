@@ -95,7 +95,7 @@ class RadikoRecorder(object):
                     ffmpeg\
                     .input(filename=url, f='aac', headers=headers)\
                     .output(filename=f'./tmp/{dt}.aac')\
-                    .run(capture_stdout=True)
+                    .run(capture_stdout=False, quiet=True)
                 except Exception as e:
                     logging.warning('failed in run ffmpeg')
                     logging.warning(e)
@@ -116,7 +116,7 @@ def record(station, program, rtime, outfilename):
         ffmpeg\
             .concat(*streams,a=1,v=0)\
             .output(filename=outfilename, absf='aac_adtstoasc')\
-            .run(capture_stdout=True)
+            .run(capture_stdout=False, quiet=True)
     except Exception as e:
         logging.warning('failed in run ffmpeg concat')
         logging.warning(e)
