@@ -5,7 +5,6 @@ import logging
 from record import record
 from post_slack import post_slack
 
-
 def _get_args():
     parser = argparse.ArgumentParser(description='record radiko')
     parser.add_argument('station',
@@ -25,6 +24,8 @@ def _get_args():
 
 
 if __name__ == "__main__":
+    post_slack("自動ポスト","Start")
+
     cwd = os.getcwd()
     # ログ設定をする
     logging.basicConfig(filename=os.path.join(cwd, '.log/record_radiko.log'), level=logging.DEBUG)
