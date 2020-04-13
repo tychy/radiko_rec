@@ -1,3 +1,4 @@
+import os
 import argparse
 from datetime import datetime, timedelta, timezone
 import logging
@@ -24,8 +25,9 @@ def _get_args():
 
 
 if __name__ == "__main__":
+    cwd = os.getcwd()
     # ログ設定をする
-    logging.basicConfig(filename=f'.log/record_radiko.log', level=logging.DEBUG)
+    logging.basicConfig(filename=os.path.join(cwd, '.log/record_radiko.log'), level=logging.DEBUG)
     # 実行時パラメータを取得する
     station, program, rtime, uploads = _get_args()
 
@@ -37,7 +39,7 @@ if __name__ == "__main__":
         recording time: {rtime}, \
         uploads: {uploads}')
     # 録音保存先を用意する
-    outfilename = f'./tmp/{current_time}_{station}_{program}.aac'
+    outfilename = os.path.join(cwd, f'tmp/{current_time}_{station}_{program}.aac')
     logging.debug(f'outfilename:{outfilename}')
     # 録音
     record(station, program, rtime, outfilename)
