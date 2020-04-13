@@ -9,7 +9,7 @@ import logging
 import ffmpeg
 import m3u8
 
-from libradiko.authorization import Authorization
+from libradiko import Authorization
 
 JST = timezone(timedelta(hours=+9), 'JST')
 
