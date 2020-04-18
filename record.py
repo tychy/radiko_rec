@@ -86,15 +86,16 @@ class RadikoRecorder(object):
                 continue
             headers = self._make_audio_headers()
             # m3u8ファイルに記述されている音声ファイルを重複しないように取得する
+            tmp_path = os.path.join(os.getcwd(), "/tmp")
             for dt, url in url_list:
                 if dt in recorded:
                     continue
-                if not os.path.isdir('./tmp'):
-                    os.mkdir('./tmp')
+                if not os.path.isdir(tmp_path):
+                    os.mkdir(tmp_path)
                 try:
                     ffmpeg\
                     .input(filename=url, f='aac', headers=headers)\
-                    .output(filename=f'./tmp/{dt}.aac')\
+                    .output(filename=os.path.join(tmp_path, f'{dt}.aac'))\
                     .run(capture_stdout=False, quiet=True)
                 except Exception as e:
                     logging.warning('failed in run ffmpeg')
@@ -110,7 +111,7 @@ def record(station, program, rtime, outfilename):
     recorded = recorder.record()
     # mp3ファイルを一つに
     l = sorted(recorded)
-    files = [f'./tmp/{e}.aac' for e in l]
+    files = [os.path.join(os.getcwd(), f'tmp/{e}.aac') for e in l]
     try:
         streams = [ffmpeg.input(filename=f) for f in files]
         ffmpeg\
