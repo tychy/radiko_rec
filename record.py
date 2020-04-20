@@ -25,6 +25,8 @@ class RadikoRecorder(object):
         self._station = station
         self._record_time = record_time
         self._file = outfile
+        self.cwd = os.path.dirname(os.path.abspath(__file__))
+        logging.debug(f'cwd : {self.cwd}')
 
     def _make_headers(self):
         """HTTPリクエストのヘッダーを作成する"""
@@ -86,7 +88,8 @@ class RadikoRecorder(object):
                 continue
             headers = self._make_audio_headers()
             # m3u8ファイルに記述されている音声ファイルを重複しないように取得する
-            tmp_path = os.path.join(os.getcwd(), "/tmp")
+            tmp_path = os.path.join(self.cwd, "tmp")
+            logging.debug(f'tmp_path:{tmp_path}')
             for dt, url in url_list:
                 if dt in recorded:
                     continue
@@ -107,11 +110,12 @@ class RadikoRecorder(object):
 
 def record(station, program, rtime, outfilename):
     # 録音を実施する
+    cwd = os.path.dirname(os.path.abspath(__file__))
     recorder = RadikoRecorder(station, rtime, outfilename)
     recorded = recorder.record()
     # mp3ファイルを一つに
     l = sorted(recorded)
-    files = [os.path.join(os.getcwd(), f'tmp/{e}.aac') for e in l]
+    files = [os.path.join(cwd, f'tmp/{e}.aac') for e in l]
     try:
         streams = [ffmpeg.input(filename=f) for f in files]
         ffmpeg\

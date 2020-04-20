@@ -29,7 +29,7 @@ if __name__ == "__main__":
     if post:
         post_slack("自動ポスト","Start")
 
-    cwd = os.getcwd()
+    cwd = os.path.dirname(os.path.abspath(__file__))
     if not os.path.isdir(os.path.join(cwd, ".log")):
             os.mkdir(os.path.join(cwd, ".log"))
     if not os.path.isdir(os.path.join(cwd, "tmp")):
