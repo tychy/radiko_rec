@@ -111,6 +111,7 @@ class RadikoRecorder(object):
 def record(station, program, rtime, outfilename):
     # 録音を実施する
     cwd = os.path.dirname(os.path.abspath(__file__))
+    logging.debug(f'cwd : {cwd}')
     recorder = RadikoRecorder(station, rtime, outfilename)
     recorded = recorder.record()
     # mp3ファイルを一つに
@@ -118,10 +119,12 @@ def record(station, program, rtime, outfilename):
     files = [os.path.join(cwd, f'tmp/{e}.aac') for e in l]
     try:
         streams = [ffmpeg.input(filename=f) for f in files]
-        ffmpeg\
+        out, err = ffmpeg\
             .concat(*streams,a=1,v=0)\
             .output(filename=outfilename, absf='aac_adtstoasc')\
             .run(capture_stdout=False, quiet=True)
+        logging.debug('ffmpeg stdout : %s', out.decode())
+        logging.debug('ffmpeg stderr : %s', err.decode())
     except Exception as e:
         logging.warning('failed in run ffmpeg concat')
         logging.warning(e)
